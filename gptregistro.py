@@ -22,8 +22,13 @@ def register_user():
         sock.sendall(message.encode())
 
         # Esperar la respuesta
-        response_length = int(sock.recv(5).decode())
-        response = sock.recv(response_only_length).decode()
+        raw_length = sock.recv(5).decode()
+        if not raw_length:
+            print("No se recibió respuesta del servidor.")
+            return
+
+        response_length = int(raw_length)
+        response = sock.recv(response_length).decode()  # Asegurarse de leer la cantidad de bytes esperada
         print("Respuesta recibida:", response)
 
     finally:
