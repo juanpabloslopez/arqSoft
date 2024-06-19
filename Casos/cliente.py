@@ -1,6 +1,19 @@
 import socket
 import sys
 
+def validar_entrada(entrada, tipo):
+    if tipo == "int":
+        try:
+            return int(entrada)
+        except ValueError:
+            return None
+    elif tipo == "usuario":
+        if entrada.strip() == "":
+            return None
+        return entrada
+    elif tipo == "descripcion" or tipo == "etiqueta":
+        return entrada
+
 # Crear un socket TCP/IP
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -15,9 +28,25 @@ try:
         if input('Send case to servi? y/n: ') != 'y':
             break
         case_id = input('Enter case ID: ')
+        case_id = validar_entrada(case_id, "int")
+        if case_id is None:
+            print("Invalid ID. Must be an integer.")
+            continue
+
+        etiqueta = input('Enter case label: ')
+        etiqueta = validar_entrada(etiqueta, "etiqueta")
+
+        usuario = input('Enter user: ')
+        usuario = validar_entrada(usuario, "usuario")
+        if usuario is None:
+            print("Invalid user. Must not be empty.")
+            continue
+
         descripcion = input('Enter case description: ')
-        datos = f"{case_id} {descripcion}"
-        mensaje = f"{len(datos) + 5:05}subcs".encode() + datos.encode()
+        descripcion = validar_entrada(descripcion, "descripcion")
+
+        datos = f"{case_id}|{etiqueta}|{usuario}|{descripcion}|No asignado"
+        mensaje = f"{len(datos) :05}subcs".encode() + datos.encode()
         print('sending {!r}'.format(mensaje))
         sock.sendall(mensaje)
 
