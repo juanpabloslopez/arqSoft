@@ -20,7 +20,8 @@ cursor.execute('''
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         nombre TEXT NOT NULL,
         email TEXT UNIQUE NOT NULL,
-        password TEXT NOT NULL
+        password TEXT NOT NULL,
+        tipo TEXT NOT NULL
     )
 ''')
 conn.commit()
@@ -54,17 +55,17 @@ try:
             datos = data[5:]
             if comando == "regus":
                 try:
-                    nombre, email, password = datos.split(maxsplit=2)
-                    print(f"Processing REGUS: nombre={nombre}, email={email}, password={password}")
+                    nombre, email, password, tipo = datos.split(maxsplit=3)
+                    print(f"Processing REGUS: nombre={nombre}, email={email}, password={password}, tipo={tipo}")
 
                     cursor.execute("SELECT id FROM usuarios WHERE email = ?", (email,))
                     if cursor.fetchone() is not None:
                         respuesta = f"El usuario con email {email} ya existe."
                     else:
-                        cursor.execute("INSERT INTO usuarios (nombre, email, password) VALUES (?, ?, ?)", (nombre, email, password))
+                        cursor.execute("INSERT INTO usuarios (nombre, email, password, tipo) VALUES (?, ?, ?, ?)", (nombre, email, password, tipo))
                         conn.commit()
                         respuesta = f"Usuario {nombre} ha sido registrado exitosamente."
-                        print(f"Insertado en la base de datos: nombre={nombre}, email={email}, password={password}")
+                        print(f"Insertado en la base de datos: nombre={nombre}, email={email}, password={password}, tipo={tipo}")
                 except Exception as e:
                     respuesta = f"Error procesando REGUS: {e}"
                     print(f"Error: {e}")
@@ -81,3 +82,4 @@ finally:
     print('closing socket')
     conn.close()
     sock.close()
+

@@ -17,7 +17,8 @@ try:
         nombre = input('Enter name: ')
         email = input('Enter email: ')
         password = input('Enter password: ')
-        datos = f"{nombre} {email} {password}"
+        tipo = input('Is this a lawyer or a client? (lawyer/client): ')
+        datos = f"{nombre} {email} {password} {tipo}"
         mensaje = f"{len(datos) + 5:05}regus".encode() + datos.encode()
         print('sending {!r}'.format(mensaje))
         sock.sendall(mensaje)
@@ -38,3 +39,4 @@ try:
 finally:
     print('closing socket')
     sock.close()
+
