@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat - Easy Lawyer</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            background-color: #ffffff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 50px;
+            border-radius: 8px;
+        }
+        .chat-header {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #6c5ce7;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .chat-info p {
+            font-size: 1.2rem;
+            color: #333;
+        }
+        .chat-history {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .message {
+            display: flex;
+            margin-bottom: 15px;
+        }
+        .message.other {
+            justify-content: flex-start;
+        }
+        .message.self {
+            justify-content: flex-end;
+        }
+        .message .alert {
+            max-width: 60%;
+        }
+        .message.other .alert {
+            background-color: #e9ecef;
+            color: #333;
+        }
+        .message.self .alert {
+            background-color: #a29bfe;
+            color: #fff;
+        }
+        .btn-back {
+            margin-top: 15px;
+        }
+        .btn-primary {
+            background-color: #a29bfe;
+            border-color: #a29bfe;
+            color: #ffffff;
+        }
+        .btn-primary:hover {
+            background-color: #6c5ce7;
+            border-color: #6c5ce7;
+        }
+        .btn-secondary {
+            color: #ffffff;
+            background-color: #6c5ce7;
+            border-color: #6c5ce7;
+        }
+        .btn-secondary:hover {
+            background-color: #a29bfe;
+            border-color: #a29bfe;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="text-center mb-4">
+            <h1 class="chat-header">Easy Lawyer</h1>
+        </div>
+        <h2 class="mb-4">Chat</h2>
+        <div class="chat-info mb-3">
+            <p><strong>Usuario ID:</strong> {{ user_id }}</p>
+            <p><strong>Nombre de Usuario:</strong> {{ nombre_usuario }}</p>
+            <p><strong>Caso ID:</strong> {{ caso_id }}</p>
+            <p><strong>Receiver ID:</strong> {{ receiver_id }}</p>
+        </div>
+
+        <!-- Historial de chat -->
+        <div class="chat-history mb-4">
+            {% if historial_chat %}
+                {% for mensaje in historial_chat %}
+                    <div class="message {% if mensaje.sender_id == user_id %}self{% else %}other{% endif %}">
+                        <div class="alert">
+                            <strong>{{ mensaje.sender }}:</strong> {{ mensaje.message }}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No hay mensajes en el historial.</p>
+            {% endif %}
+        </div>
+
+        <!-- Formulario para enviar mensaje -->
+        <form method="POST">
+            <div class="form-group">
+                <label for="mensaje">Mensaje:</label>
+                <textarea class="form-control" id="mensaje" name="mensaje" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+
+        <!-- Botón para volver al perfil -->
+        <a href="{{ url_for('perfil', tipo_usuario=tipo_usuario, user_id=user_id, nombre=nombre_usuario) }}" class="btn btn-back btn-secondary mt-3">Volver al Perfil</a>
+    </div>
+
+    <!-- Bootstrap JS (jQuery y Popper.js requeridos para Bootstrap) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

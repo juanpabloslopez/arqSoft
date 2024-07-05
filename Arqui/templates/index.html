@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Easy Lawyer</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f2f2f2;
+        }
+        .home-container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .btn-primary {
+            background-color: #6c5ce7;
+            border-color: #6c5ce7;
+        }
+        .btn-primary:hover {
+            background-color: #a29bfe;
+            border-color: #a29bfe;
+        }
+    </style>
+</head>
+<body>
+    <div class="container home-container">
+        <h1>Welcome to Easy Lawyer</h1>
+        <a href="{{ url_for('login') }}" class="btn btn-primary">Login</a>
+        <a href="{{ url_for('register') }}" class="btn btn-secondary">Register</a>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
